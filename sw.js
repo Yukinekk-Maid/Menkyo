@@ -1,7 +1,7 @@
 // 更新したらVERSIONを変えると、端末のキャッシュが入れ替わります
 const VERSION = "v1";
 const CACHE = "license-app-" + VERSION;
-const CORE = ["./", "./index.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png"];
+const CORE = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
