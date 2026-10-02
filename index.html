@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>免許攻略アプリ Pro</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="免許攻略">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 520px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #eef2f5;
+            padding-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            color: #1e293b;
+        }
+
+        .progress {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* タイマー表示 */
+        .timer-box {
+            background-color: #fee2e2;
+            color: #dc2626;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .course-select {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .course-btn {
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .course-btn.active {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+            color: #2563eb;
+        }
+
+        .home-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mode-btn {
+            background-color: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:active {
+            background-color: #f1f5f9;
+            transform: scale(0.99);
+        }
+
+        .mode-btn.highlight {
+            border-color: #2563eb;
+            background-color: #f0f6ff;
+        }
+
+        .mode-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #0f172a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mode-desc {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .badge {
+            background-color: #ef4444;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .badge-blue {
+            background-color: #2563eb;
+        }
+
+        /* 標識画像 */
+        .q-img-container {
+            text-align: center;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .q-img {
+            max-height: 120px;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .question-box {
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 600;
+            color: #0f172a;
+            min-height: 60px;
+        }
+
+        /* 危険予測問題スタイル */
+        .risk-situation {
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+
+        .sub-q-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .sub-q-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .sub-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .sub-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        .sub-btn.selected-true {
+            background-color: #ef4444;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .sub-btn.selected-false {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .sub-exp {
+            font-size: 0.85rem;
+            margin-top: 6px;
+            padding: 6px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn {
+            padding: 16px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:active { transform: scale(0.98); }
+        .btn-maru { background-color: #ef4444; color: white; }
+        .btn-batsu { background-color: #3b82f6; color: white; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .explanation {
+            background-color: #f8fafc;
+            border-left: 4px solid #94a3b8;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: none;
+            margin-top: 12px;
+        }
+
+        .explanation.correct { border-color: #22c55e; background-color: #f0fdf4; }
+        .explanation.wrong { border-color: #ef4444; background-color: #fef2f2; }
+        .explanation-title { font-weight: bold; margin-bottom: 4px; }
+
+        .nav-btn {
+            background-color: #0f172a;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .secondary-btn {
+            background-color: #e2e8f0;
+            color: #334155;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        /* 苦手分析エリア */
+        .analytics-box {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 14px;
+            border: 1px solid #e2e8f0;
+            margin-top: 8px;
+        }
+
+        .analytics-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .meter-item {
+            margin-bottom: 8px;
+        }
+
+        .meter-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #475569;
+            margin-bottom: 3px;
+        }
+
+        .meter-bar-bg {
+            height: 8px;
+            background: #cbd5e1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .meter-bar-fill {
+            height: 100%;
+            background: #2563eb;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .result-screen {
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .result-badge {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .pass-badge { background-color: #dcfce7; color: #15803d; }
+        .fail-badge { background-color: #fee2e2; color: #b91c1c; }
+
+        .score-detail {
+            font-size: 0.95rem;
+            color: #475569;
+            text-align: left;
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="header">
+        <h1 id="app-title">学科試験 攻略アプリ</h1>
+        <div class="progress" id="progress">コースとモードを選択してください</div>
+    </div>
+
+    <!-- タイマー -->
+    <div class="timer-box" id="timer-box">⏱ 残り時間: <span id="timer-text">50:00</span></div>
+
+    <!-- ホーム画面 -->
+    <div id="home-screen" class="home-screen">
+        <div class="course-select">
+            <button class="course-btn active" id="btn-course-car" onclick="selectCourse('car')">🚗 普通免許</button>
+            <button class="course-btn" id="btn-course-truck" onclick="selectCourse('truck')">🚚 準中・大型</button>
+        </div>
+
+        <button class="mode-btn highlight" onclick="startQuiz('mock')">
+            <div class="mode-title">🎓 本免模擬試験 <span class="badge">100点満点</span></div>
+            <div class="mode-desc">文章90問＋危険予測5問（50分 / 90点以上合格）</div>
+        </button>
+
+        <button class="mode-btn" onclick="startQuiz('number')">
+            <div class="mode-title">🔢 数字特訓モード <span class="badge badge-blue" id="number-count-badge">0問</span></div>
+            <div class="mode-desc">速度・メートル・トン等の数値問題をAI自動抽出し特訓</div>
+        </button>
+
+        <button class="mode-btn" onclick="startQuiz('sign')">
+            <div class="mode-title">🪧 標識・標示特訓 <span class="badge badge-blue" id="sign-count-badge">0問</span></div>
+            <div class="mode-desc">標識画像を見て解答する視覚問題を集中特訓</div>
+        </button>
+
+        <button class="mode-btn" onclick="startQuiz('random10')">
+            <div class="mode-title">⚡ スキマ時間 10問テスト</div>
+            <div class="mode-desc">全問題からランダムで10問出題</div>
+        </button>
+
+        <button class="mode-btn" onclick="startQuiz('wrong')">
+            <div class="mode-title">
+                🎯 弱点克服モード
+                <span class="badge" id="wrong-count-badge">0問</span>
+            </div>
+            <div class="mode-desc">過去に間違えた問題だけを集中復習</div>
+        </button>
+
+        <button class="mode-btn" onclick="startQuiz('all')">
+            <div class="mode-title">🔥 全問マスター <span class="badge badge-blue" id="total-count-badge">90問</span></div>
+            <div class="mode-desc">選択中コースの全文章問題を順番に攻略</div>
+        </button>
+
+        <!-- カテゴリ別・苦手分析 -->
+        <div class="analytics-box">
+            <div class="analytics-title">
+                <span>📊 カテゴリ別正答率（苦手分析）</span>
+                <span style="font-size: 0.75rem; color: #64748b; font-weight: normal; cursor: pointer;" onclick="resetAnalytics()">履歴リセット</span>
+            </div>
+            <div id="analytics-meters">
+                <!-- 動的に生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- クイズ画面 -->
+    <div id="quiz-screen" style="display: none;">
+        <!-- 画像エリア -->
+        <div class="q-img-container" id="q-img-container">
+            <img src="" alt="標識画像" class="q-img" id="q-img">
+        </div>
+
+        <!-- 文章問題表示部 -->
+        <div id="normal-q-box">
+            <div class="question-box" id="question">問題文</div>
+
+            <div class="btn-group" id="btn-group">
+                <button class="btn btn-maru" onclick="checkAnswer(true)">⭕</button>
+                <button class="btn btn-batsu" onclick="checkAnswer(false)">❌</button>
+            </div>
+        </div>
+
+        <!-- 危険予測表示部 -->
+        <div id="risk-q-box" style="display: none;">
+            <div class="risk-situation" id="risk-situation">シチュエーション</div>
+            <div id="risk-sub-container"></div>
+            <button class="nav-btn" id="risk-submit-btn" onclick="checkRiskAnswer()">判定する (配点2点)</button>
+        </div>
+
+        <!-- 解説エリア -->
+        <div class="explanation" id="explanation">
+            <div class="explanation-title" id="exp-title">結果</div>
+            <div id="exp-text">解説文</div>
+        </div>
+
+        <button class="nav-btn" id="next-btn" onclick="nextQuestion()" style="display: none;">次の問題へ</button>
+        <button class="secondary-btn" onclick="confirmGoHome()">ホームに戻る</button>
+    </div>
+
+    <!-- 結果画面 -->
+    <div class="result-screen" id="result-screen">
+        <h2>テスト終了</h2>
+        <div class="result-badge" id="result-badge">合格</div>
+        <div class="score-detail" id="score-detail">
+            <!-- スコア詳細 -->
+        </div>
+        <button class="nav-btn" onclick="goHome()">ホームに戻る</button>
+    </div>
+</div>
+
+<script>
+    // 1. 普通免許用問題データ (一部標識画像つき)
+    const carQuestions = [
+        { id: "c1", q: "現行の普通自動車免許（2017年3月12日以降取得）で運転できる自動車は、車両総重量3.5トン未満、最大積載量2.0トン未満、乗車定員10人以下である。", a: true, exp: "正しいです。車両総重量3.5t以上や最大積載量2.0t以上の場合は準中型免許以上が必要です。" },
+        { id: "c2", q: "普通自動車で高速自動車国道の本線車道を走行するときの法定最高速度は、標識等で指定がなければ時速100キロメートルである。", a: true, exp: "正しいです。法定最高速度は100km/hです。" },
+        { id: "c3", q: "標識や標示で指定されていない一般道路での普通自動車の法定最高速度は、時速60キロメートルである。", a: true, exp: "正しいです。一般道路の法定最高速度は60km/hです。" },
+        { id: "c4", q: "乗車定員が5人の普通乗用自動車に、大人（12歳以上）2人と子ども（12歳未満）3人が乗車することは定員オーバーとなる。", a: false, exp: "誤りです。12歳未満の子ども3人は大人2人分（3人÷1.5＝大人2人）として計算するため、合計大人4人分となり定員内です。" },
+        { id: "c5", q: "普通乗用自動車の積載物の長さ制限は、自動車の長さの1.2倍までである。", a: true, exp: "正しいです。法改正により長さ・幅ともに自動車の1.2倍まで積載可能となりました。" },
+        { id: "c6", q: "軽自動車に荷物を積む場合、積載物の高さ制限は地上から2.5メートルまでである。", a: true, exp: "正しいです。普通自動車は3.8mですが、軽自動車は2.5mです。" },
+        { id: "c7", q: "普通自動車の乗車定員には、運転者も含まれる。", a: true, exp: "正しいです。乗車定員は「運転者を含めた全体の人数」です。" },
+        { id: "c8", q: "原動機付自転車や小型特殊自動車は、普通自動車免許を取得していれば運転することができる。", a: true, exp: "正しいです。普通免許で普通自動車・小型特殊自動車・原動機付自転車が運転できます。" },
+        { id: "c9", q: "シートベルトは、後部座席の乗車者であっても着用が義務付けられている。", a: true, exp: "正しいです。全座席で着用が義務化されています。" },
+        { id: "c10", q: "運転者がチャイルドシートを使用させなければならないのは、6歳未満の幼児を乗車させるときである。", a: true, exp: "正しいです。6歳未満の幼児にはチャイルドシートの使用義務があります。" },
+        { id: "c11", q: "信号機のない交差点で優先道路を通行しているときは、交差点とその手前30メートル以内の場所であっても追い越しができる。", a: true, exp: "正しいです。優先道路を通行中に限り、交差点とその手前30m以内での追い越し禁止が解除されます。" },
+        { id: "c12", q: "横断歩道や自転車横断帯とその手前30メートル以内の場所では、優先道路を通行していても追い越しや追い抜きが禁止されている。", a: true, exp: "正しいです。横断歩道等は優先道路であっても例外なく追い越し・追い抜き禁止です。" },
+        { id: "c13", q: "この標識のある場所では、車は停車することはできるが、駐車することはできない。", a: false, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Japanese_Road_Sign_315.svg/200px-Japanese_Road_Sign_315.svg.png", exp: "誤りです。これは「駐停車禁止」の標識であり、駐車だけでなく停車も禁止されています。" },
+        { id: "c14", q: "この標識のある場所では、車は徐行して進行しなければならない。", a: true, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Japanese_Road_Sign_329-A.svg/200px-Japanese_Road_Sign_329-A.svg.png", exp: "正しいです。「徐行」の標識です。車は直ちに停止できる速度で進行しなければなりません。" },
+        { id: "c15", q: "この標識がある場所では、指定された最高速度を超えて運転してはならない。", a: true, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Japanese_Road_Sign_323.svg/200px-Japanese_Road_Sign_323.svg.png", exp: "正しいです。「最高速度（時速50キロ）」の指定標識です。" },
+        { id: "c16", q: "黄色の灯火の点滅信号は「徐行して進行しなければならない」という意味である。", a: false, exp: "誤りです。「他の交通に注意して進行することができる」の意味であり、徐行義務はありません。" },
+        { id: "c17", q: "赤色の灯火の点滅信号は「一時停止し、安全を確認した後に進行することができる」という意味である。", a: true, exp: "正しいです。一時停止標識と同じ扱いです。" },
+        { id: "c18", q: "この標識のある交差点に接近したときは、停止線の直前で一時停止しなければならない。", a: true, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Japanese_Road_Sign_330-A.svg/200px-Japanese_Road_Sign_330-A.svg.png", exp: "正しいです。「一時停止」の標識です。" },
+        { id: "c19", q: "交差点を右折するときは、あらかじめ道路の中央（一方通行道路では右端）に寄り、交差点の中心のすぐ内側を徐行して通過する。", a: true, exp: "正しいです。右折の正しい通行方法です。" },
+        { id: "c20", q: "環状交差点（ラウンドアバウト）に入ろうとするときは、徐行して進入しなければならない。", a: true, exp: "正しいです。環状交差点内を通行する車両が優先となります。" },
+        { id: "c21", q: "坂の頂上付近および勾配の急な坂は、上り・下りともに追い越しが禁止されている。", a: false, exp: "誤りです。追い越し禁止なのは「上り坂の頂上付近」と「勾配の急な下り坂」です。急な上り坂の途中は禁止ではありません。" },
+        { id: "c22", q: "この標識は「車両通行止め」を表している。", a: true, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Japanese_Road_Sign_301.svg/200px-Japanese_Road_Sign_301.svg.png", exp: "正しいです。歩行者・車・路面電車のすべてが通行できません。" },
+        { id: "c23", q: "消防用機械器具の置場やその出入口から5メートル以内の場所は、駐停車禁止場所である。", a: false, exp: "誤りです。駐停車禁止ではなく「駐車禁止」場所です。" },
+        { id: "c24", q: "軌道敷内（路面電車のレール上）は原則として通行禁止だが、右左折や横断のために横切る場合は通行できる。", a: true, exp: "正しいです。危険防止や右左折などの場合は通行が認められます。" },
+        { id: "c25", q: "この標識がある道路では、自動車は追い越しのための右側部分へのはみ出しが禁止されている。", a: true, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Japanese_Road_Sign_314.svg/200px-Japanese_Road_Sign_314.svg.png", exp: "正しいです。「追い越しのための右側部分追出し通行禁止」の標識です。" },
+        { id: "c26", q: "夜間、道路上に駐車するとき、50メートル後方から明瞭に見える道路照明がある場所では非常点滅表示灯（ハザード）などの点灯を省略できる。", a: true, exp: "正しいです。後方からの視認性が保たれていれば省略可能です。" },
+        { id: "c27", q: "高速道路の本線車道で、危険防止のために一時停止することは駐停車違反にはならない。", a: true, exp: "正しいです。危険防止のための停止は認められます。" },
+        { id: "c28", q: "高速道路で故障により停止した場合、停止表示器材（三角表示板）を後方に設置する義務がある。", a: true, exp: "正しいです。設置を怠ると高速道路停止表示器材設置違反となります。" },
+        { id: "c29", q: "ABS（アンチロック・ブレーキ・システム）装着車で急ブレーキをかけるときは、ペダルを強く踏み続け、緩めてはならない。", a: true, exp: "正しいです。ポンピングブレーキをせず、強く踏み続けることでシステムが効果を発揮します。" },
+        { id: "c30", q: "雨の日にブレーキの利きが悪くなったときは、低速走行中にブレーキペダルを軽く断続的に踏んでドラムやライニングを乾かすとよい。", a: true, exp: "正しいです。水濡れによる制動力低下を回復させる有効な方法です。" },
+        { id: "c31", q: "夜間対向車とすれ違う際、お互いのヘッドライトの光が重なることで道路中央の歩行者が見えなくなる現象を「蒸発現象」という。", a: true, exp: "正しいです。見落とし事故の大きな原因となります。" },
+        { id: "c32", q: "ハイドロプレーニング現象を防ぐためには、タイヤの空気圧を適正にし、摩耗したタイヤを使わないことが大切である。", a: true, exp: "正しいです。水深やスピードのほか、タイヤの状態も深く関係します。" },
+        { id: "c33", q: "トンネル内は原則として追い越し禁止だが、車両通行帯（片側2車線以上）がある場合は追い越しをすることができる。", a: true, exp: "正しいです。通行帯があるトンネル内は追い越し可能です。" },
+        { id: "c34", q: "路側帯がある道路で駐車する場合、路側帯の幅が0.75メートル以下のときは車道の左端に沿って駐車する。", a: true, exp: "正しいです。0.75m以下の場合は路側帯に入れず車道左端に合わせます。" },
+        { id: "c35", q: "路側帯の幅が1.5メートルの場合、路側帯に入り0.75メートルの余地をあけて駐車しなければならない。", a: true, exp: "正しいです。歩行者の通行スペースとして0.75mを空けて進入・駐車します。" },
+        { id: "c36", q: "白の点線と実線が並んでいる車両通行帯で、自分側の線が「点線」の場合は進路変更して追い越すことができる。", a: true, exp: "正しいです。自分側が点線の場合は黄線・白実線側へのハミ出し変更が可能です。" },
+        { id: "c37", q: "白の点線と実線が並んでいる車両通行帯で、自分側の線が「実線」の場合は進路変更が禁止されている。", a: true, exp: "正しいです。自分側が実線の側の車線からは進路変更できません。" },
+        { id: "c38", q: "免許証の更新期間が満了する日の年齢が70歳以上の者は、更新時に高齢者講習を受けなければならない。", a: true, exp: "正しいです。70歳以上は高齢者講習の受講が義務です。" },
+        { id: "c39", q: "初心運転者期間（普通免許取得後1年間）に再試験該当者となった場合、再試験を受けないか不合格になると免許が取り消される。", a: true, exp: "正しいです。初心運転者期間制度の規定です。" },
+        { id: "c40", q: "酒気を帯びて自動車を運転した者はもちろん、その者に車両や酒類を提供した者も処罰される。", a: true, exp: "正しいです。提供者・同乗者への罰則も非常に厳重です。" },
+        { id: "c41", q: "交差点内を通行中、緊急自動車が接近してきたときは、直ちにその場所に一時停止しなければならない。", a: false, exp: "誤りです。交差点を避けて道路の左側に寄って一時停止します。交差点内での停止は危険です。" },
+        { id: "c42", q: "一方通行の道路で緊急自動車が接近してきたとき、左側に寄るとかえって妨げになる場合は右側に寄って譲ることができる。", a: true, exp: "正しいです。柔軟な対応が認められています。" },
+        { id: "c43", q: "体の不自由な人が車いすで通行している側方を通過するときは、安全な間隔をあけるか、または徐行しなければならない。", a: true, exp: "正しいです。歩行者優先・安全確保の徹底が必要です。" },
+        { id: "c44", q: "自動車を運転中、やむを得ずぬかるみから脱出するとき以外は、空ぶかしをしてはならない。", a: true, exp: "正しいです。騒音や排気ガス抑制のルールです。" },
+        { id: "c45", q: "カーブを走行するときは、カーブに入る手前で十分減速し、カーブ内では軽くアクセルを踏んで安定して曲がる。", a: true, exp: "正しいです。「スローイン・ファーストアウト」が安全走行の基本です。" },
+        { id: "c46", q: "坂道ですれ違うときは、上りの自動車が発進しにくいため、下りの自動車が道を譲るのが基本である。", a: true, exp: "正しいです。上り優先が基本原則です。" },
+        { id: "c47", q: "坂道に退避所がある場合は、上り・下りに関わらず、退避所のある側の自動車が進入して道を譲る。", a: true, exp: "正しいです。退避所がある場合は退避所側が譲ります。" },
+        { id: "c48", q: "踏切を通過するときは、前車に続いて進行する場合であっても、停止位置で一時停止して安全確認を行わなければならない。", a: true, exp: "正しいです。前車に追従する場合も全車一時停止が必要です（信号機がある踏切を除く）。" },
+        { id: "c49", q: "信号機のある踏切で、青信号が点灯しているときは、一時停止せずに安全を確認して通過することができる。", a: true, exp: "正しいです。信号機の指示に従って通行できます。" },
+        { id: "c50", q: "一般道路で普通自動車が故障車をロープで牽引して走るときの法定最高速度は、時速30キロメートルである。", a: true, exp: "正しいです。ロープ等での牽引時は30km/h制限となります。" },
+        { id: "c51", q: "進路変更をしようとするときの合図（ウインカー）の時期は、進路変更をしようとする約3秒前である。", a: true, exp: "正しいです。進路変更の3秒前に合図を出します。" },
+        { id: "c52", q: "交差点を右折または左折しようとするときの合図の時期は、その交差点の手前約30メートルの地点である。", a: true, exp: "正しいです。右左折は30m手前、進路変更は3秒前です。" },
+        { id: "c53", q: "環状交差点から出ようとするときの合図は、出ようとする出口の直前の出口の側方を通過したときに出す。", a: true, exp: "正しいです。ラウンドアバウトでの正解の合図タイミングです。" },
+        { id: "c54", q: "同一方向に2つの車両通行帯がある道路では、スピードの遅い車が右側の通行帯を走り、速い車が左側の通行帯を走る。", a: false, exp: "誤りです。通行帯は左側が基本で、右側は追い越しなどのために空けておきます。" },
+        { id: "c55", q: "「バス専用通行帯」に指定されている道路では、原動機付自転車や小型特殊自動車、軽車両も通行することはできない。", a: false, exp: "誤りです。原付、小型特殊、軽車両（自転車等）はバス専用通行帯であっても通行できます。" },
+        { id: "c56", q: "交差点およびその側端から5メートル以内の場所は、駐停車禁止場所である。", a: true, exp: "正しいです。交差点内およびその側端5m以内は駐停車禁止です。" },
+        { id: "c57", q: "道路の曲がり角から5メートル以内の場所は、駐車禁止場所だが停車はできる。", a: false, exp: "誤りです。曲がり角から5m以内は「駐停車禁止」場所なので停車も不可能です。" },
+        { id: "c58", q: "横断歩道や自転車横断帯とその前後5メートル以内の場所は、駐停車禁止場所である。", a: true, exp: "正しいです。前後5m以内が駐停車禁止です。" },
+        { id: "c59", q: "踏切とその前後10メートル以内の場所は、駐停車禁止場所である。", a: true, exp: "正しいです。踏切前後10m以内は駐停車禁止です。" },
+        { id: "c60", q: "火災報知機から1メートル以内の場所は、駐停車禁止場所である。", a: false, exp: "誤りです。火災報知機から1m以内は「駐車禁止」場所です（停車は可能）。" },
+        { id: "c61", q: "駐車場や車庫などの自動車専用の出入口から3メートル以内の場所は、駐車禁止場所である。", a: true, exp: "正しいです。出入口から3m以内は駐車禁止です。" },
+        { id: "c62", q: "標識によって駐車が禁止されていない道路であっても、昼間同じ場所に12時間以上連続して駐車してはならない。", a: true, exp: "正しいです。保管場所法により、昼間は12時間以上、夜間は8時間以上の連続駐車が禁止されています。" },
+        { id: "c63", q: "運転者が危険を感じてからブレーキを踏み、実際にブレーキが効き始めるまでに走る距離を「制動距離」という。", a: false, exp: "誤りです。危険を感じてからブレーキが効き始めるまでは「空走距離」です。効き始めてから止まるまでが「制動距離」です。" },
+        { id: "c64", q: "自動車の停止距離は、「空走距離」と「制動距離」を合わせた距離のことである。", a: true, exp: "正しいです。停止距離 ＝ 空走距離 ＋ 制動距離 です。" },
+        { id: "c65", q: "自動車の速度が2倍になると、制動距離は4倍（2の2乗）になる。", a: true, exp: "正しいです。制動距離は速度の2乗に比例して伸びます。" },
+        { id: "c66", q: "カーブを走行するときに自動車にかかる遠心力は、速度の2乗に比例して大きくなる。", a: true, exp: "正しいです。速度が2倍になれば遠心力は4倍になります。" },
+        { id: "c67", q: "長い下り坂でフットブレーキを使いすぎると、摩擦熱によってブレーキの効きが悪くなる現象を「ベーパーロック現象」という。", a: false, exp: "誤りです。摩擦熱で効かなくなるのは「フェード現象」です。熱でブレーキ液に気泡ができるのがベーパーロック現象です。" },
+        { id: "c68", q: "オートマチック車（AT車）でチェンジレバーが「D」や「R」に入っているとき、アクセルペダルを踏まなくても車がゆっくり動き出す現象を「クリープ現象」という。", a: true, exp: "正しいです。停止中はブレーキペダルをしっかり踏み続ける必要があります。" },
+        { id: "c69", q: "AT車で走行中、アクセルペダルを急激に強く踏み込むと、自動的にギアが1段下がって強力な加速が得られる機能を「キックダウン」という。", a: true, exp: "正しいです。追い越し時などに使われる仕組みです。" },
+        { id: "c70", q: "左右の見通しがきかない交差点（信号機がある場合や優先道路を通行している場合を除く）は、徐行しなければならない。", a: true, exp: "正しいです。見通しの悪い交差点は徐行場所です。" },
+        { id: "c71", q: "道路の曲がり角付近は、見通しが良い場合であっても徐行しなければならない。", a: true, exp: "正しいです。曲がり角付近は一律で徐行場所です。" },
+        { id: "c72", q: "上り坂の頂上付近は、徐行場所でもあり追い越し禁止場所でもある。", a: true, exp: "正しいです。頂上付近は徐行・追い越し禁止の両方に指定されています。" },
+        { id: "c73", q: "勾配の急な下り坂は徐行場所であるが、勾配の急な上り坂は徐行場所ではない。", a: true, exp: "正しいです。急な下り坂のみ徐行場所です。" },
+        { id: "c74", q: "安全地帯のない停留所で停止中の路面電車に追いついたとき、乗降客がいないときは、徐行して側方を通過することができる。", a: true, exp: "正しいです。乗降客がいない（または1.5m以上の安全な間隔がある）場合は徐行して進行可能です。" },
+        { id: "c75", q: "児童・幼児が乗り降りするために停止している通学・通園バスの側方を通過するときは、徐行して安全を確認しなければならない。", a: true, exp: "正しいです。一時停止ではなく「徐行」して安全確認します。" },
+        { id: "c76", q: "ぬかるみや砂利道などで車輪が空転したときは、ギアをロー（1速）またはバックに入れ、アクセルペダルを急激に踏み込んで脱出する。", a: false, exp: "誤りです。アクセルを強く踏むと余計に埋まるため、ゆっくり踏み込むかセカンドギア等で慎重に脱出します。" },
+        { id: "c77", q: "普通自動車免許を取得してから1年未満の運転者は、車の前後定められた位置に「初心者マーク（初心運転者標識）」を提示しなければならない。", a: true, exp: "正しいです。取得後1年間は表示義務があります。" },
+        { id: "c78", q: "初心者マークをつけている車の側方に幅寄せをしたり、前に割り込んだりすることは禁止されている。", a: true, exp: "正しいです。危険防止のためやむを得ない場合を除き禁止されています。" },
+        { id: "c79", q: "70歳以上の運転者が普通自動車を運転するときは、高齢運転者標識（高齢者マーク）をつけるよう努めなければならない。", a: true, exp: "正しいです。70歳以上は「努力義務」とされています。" },
+        { id: "c80", q: "自動車を運転するときは、運転免許証を携帯していなくても、自宅に保管してあれば運転してもよい。", a: false, exp: "誤りです。免許証は運転中常に不携帯であってはならず、携帯義務があります。" },
+        { id: "c81", q: "自動車損害賠償責任保険（自賠責保険）の証明書は、車内に備え付けておく必要はない。", a: false, exp: "誤りです。車検証と同様に車内備え付けが法律で義務付けられています。" },
+        { id: "c82", q: "自家用乗用自動車の日常点検は、走行距離や運行時の状態などから判断して、適切な時期に行えばよい。", a: true, exp: "正しいです。自家用乗用車は1日1回の一律義務ではなく「適切な時期」とされています。" },
+        { id: "c83", q: "走行中にオイル圧力警報灯が点灯した場合は、すぐに安全な場所に停車し、エンジンを止めてオイル量を点検する必要がある。", a: true, exp: "正しいです。そのまま走るとエンジンが焼付いて破損します。" },
+        { id: "c84", q: "タイヤの溝の深さがスリップサイン（1.6ミリ）に達しているタイヤは、使用してはならない。", a: true, exp: "正しいです。スリップサインが1箇所でも出ているタイヤは整備不良となり使用禁止です。" },
+        { id: "c85", q: "運転中にスマートフォンを手で保持して通話したり、画面を凝視したりする行為は厳しく禁止されている。", a: true, exp: "正しいです。保持通話や注視は重大な違反・危険行為です。" },
+        { id: "c86", q: "夜間、高速道路で故障などのためやむを得ず本線車道や路肩に停止するときは、非常点滅表示灯（ハザード）等を点灯させるとともに、停止表示器材を設置しなければならない。", a: true, exp: "正しいです。高速道路での停止時は停止表示器材の設置義務があります。" },
+        { id: "c87", q: "高速道路での最高速度・最低速度の規定は、本線車道だけでなく加速車線や減速車線にも適用される。", a: false, exp: "誤りです。最高・最低速度の規定が適用されるのは「本線車道」のみです。" },
+        { id: "c88", q: "交差点で矢印型の青色信号（↑）が点灯しているときは、自動車は矢印の方向に進行することができる。", a: true, exp: "正しいです。本信号が赤や黄色であっても矢印方向に進行可能です。" },
+        { id: "c89", q: "交差点で黄色の矢印信号が点灯しているときは、路面電車のみが進むことができ、自動車は進むことができない。", a: true, exp: "正しいです。黄色の矢印は路面電車専用です。" },
+        { id: "c90", q: "警察官の手信号で、腕を頭上に垂直に上げているとき、警察官の身体の正面に対面する交通にとっては「赤色の灯火」と同じ意味である。", a: true, exp: "正しいです。対面する交通にとっては赤信号と同じ意味になります。" }
+    ];
+
+    // 2-a. 準中型・大型 追加問題
+    const truckExtra = [
+        { id: "x1", cat: "免許・車両区分", q: "準中型免許で運転できる自動車は、車両総重量3.5トン以上7.5トン未満、最大積載量2.0トン以上4.5トン未満、乗車定員10人以下のものである。", a: true, exp: "正しいです。これに加えて普通車・小型特殊・原付も運転できます。" },
+        { id: "x2", cat: "免許・車両区分", q: "中型免許で運転できる自動車は、車両総重量7.5トン以上11トン未満、最大積載量4.5トン以上6.5トン未満、乗車定員11人以上29人以下のものである。", a: true, exp: "正しいです。中型の区分の数値です。" },
+        { id: "x3", cat: "免許・車両区分", q: "大型免許が必要なのは、車両総重量11トン以上、最大積載量6.5トン以上、または乗車定員30人以上の自動車である。", a: true, exp: "正しいです。いずれか1つでも超えれば大型です。" },
+        { id: "x4", cat: "免許・車両区分", q: "車両総重量とは、「車両重量＋最大積載量＋乗車定員の重さ（1人55キログラム）」の合計である。", a: true, exp: "正しいです。定員分は1人55kgで計算します。" },
+        { id: "x5", cat: "免許・車両区分", q: "大型免許は、原則として21歳以上で、普通免許などを受けていた期間が通算3年以上ないと受験できない。", a: true, exp: "正しいです。特例教習を修了すれば19歳以上・経験1年以上で受験できる制度もあります。" },
+        { id: "x6", cat: "免許・車両区分", q: "中型免許は、原則として20歳以上で、普通免許などを受けていた期間が通算2年以上ないと受験できない。", a: true, exp: "正しいです。こちらも特例教習で19歳以上・経験1年以上に緩和されます。" },
+        { id: "x7", cat: "免許・車両区分", q: "準中型免許を受けていれば、普通自動車も運転することができる。", a: true, exp: "正しいです。上位の免許は下位の車種も運転できます。" },
+        { id: "x8", cat: "免許・車両区分", q: "2017年3月11日以前に取得した普通免許では、車両総重量5トン未満、最大積載量3トン未満の準中型車（5トン限定）を運転できる。", a: true, exp: "正しいです。改正前の普通免許は「準中型（5トン限定）」に引き継がれています。" },
+        { id: "x9", cat: "速度・通行", q: "一般道路（標識等による指定がない場合）での大型貨物自動車の法定最高速度は、時速60キロメートルである。", a: true, exp: "正しいです。大型・準中型の貨物も一般道は60km/hです。" },
+        { id: "x10", cat: "速度・通行", q: "高速自動車国道の本線車道の最低速度は、時速50キロメートルである。", a: true, exp: "正しいです。故障車の牽引など、やむを得ない場合を除きます。" },
+        { id: "x11", cat: "速度・通行", q: "片側3車線以上の高速道路では、大型貨物自動車は原則として最も右側の通行帯を通行できない。", a: true, exp: "正しいです。大型貨物は右端の追越車線を走れません。" },
+        { id: "x12", cat: "積載・過積載", q: "一般的な道路を通行できる車両の大きさの制限は、幅2.5メートル以下、高さ3.8メートル以下、長さ12メートル以下である。", a: true, exp: "正しいです。車両制限令の一般的制限値です。" },
+        { id: "x13", cat: "積載・過積載", q: "積載物の高さは、地上から3.8メートル（高さ指定道路は4.1メートル）以下でなければならない。", a: true, exp: "正しいです。軽自動車は2.5mです。" },
+        { id: "x14", cat: "積載・過積載", q: "貨物自動車の積載物の長さは、原則として自動車の長さの1.2倍までである。", a: true, exp: "正しいです。幅も自動車の幅の1.2倍までです。" },
+        { id: "x15", cat: "積載・過積載", q: "過積載による運転をした場合、処罰されるのは運転者だけで、荷主や車の使用者は処罰されない。", a: false, exp: "誤りです。使用者や荷主も処罰・指示の対象になります。" },
+        { id: "x16", cat: "積載・過積載", q: "貨物自動車の荷台には、原則として人を乗せて運転してはならない。", a: true, exp: "正しいです。例外は出発地の警察署長の許可を受けた場合などです。" },
+        { id: "x17", cat: "積載・過積載", q: "積荷は荷台の前後左右に偏らないように積み、重心をできるだけ低くする。", a: true, exp: "正しいです。偏りや高い重心は横転・ハンドル取られの原因です。" },
+        { id: "x18", cat: "大型車の特性", q: "内輪差は、ホイールベース（前後の車輪の間隔）が長い車ほど大きくなる。", a: true, exp: "正しいです。大型車は左折時の巻き込みに特に注意します。" },
+        { id: "x19", cat: "大型車の特性", q: "大型車が右左折するとき、車体の後部（オーバーハング部分）は曲がる方向と反対の外側へ振れる。", a: true, exp: "正しいです。後方・側方の車や歩行者との接触に注意します。" },
+        { id: "x20", cat: "大型車の特性", q: "大型車は運転席が高いため死角が小さく、車の直前や左側にいる歩行者や二輪車は見落としにくい。", a: false, exp: "誤りです。直前・左側・後方に大きな死角があります。" },
+        { id: "x21", cat: "大型車の特性", q: "積載時の大型車は空車時より制動距離が長くなるため、車間距離を長めにとる。", a: true, exp: "正しいです。重量が増すほど止まりにくくなります。" },
+        { id: "x22", cat: "大型車の特性", q: "重心の高い積荷を積んだ貨物自動車は、カーブで横転しやすい。", a: true, exp: "正しいです。遠心力は速度の2乗に比例するので、カーブ前に十分減速します。" },
+        { id: "x23", cat: "大型車の特性", q: "長い下り坂では、エンジンブレーキや排気ブレーキを活用し、フットブレーキは補助的に使う。", a: true, exp: "正しいです。使いすぎるとフェード現象やベーパーロック現象が起こります。" },
+        { id: "x24", cat: "大型車の特性", q: "空気ブレーキ装置の警報ブザーが鳴っているときは、エア圧が不足しているので、圧力が上がるまで発進してはならない。", a: true, exp: "正しいです。圧力不足のまま走るとブレーキが十分に効きません。" },
+        { id: "x25", cat: "大型車の特性", q: "長距離運転では、連続運転が4時間を超えないうちに、合計30分以上の休憩をとることが目安とされている。", a: true, exp: "正しいです。過労運転の防止は大型車運転者の重要な責務です。" }
+    ];
+
+    // 2. トラック用問題データ
+    const truckQuestions = carQuestions.map((q, idx) => {
+        // トラック用の問題と組み替え
+        if(idx === 1) return { id: "t2", q: "高速自動車国道における大型貨物自動車の法定最高速度は時速90キロメートルである。", a: true, exp: "正しいです。2024年の法改正により90km/hに引き上げられました。" };
+        if(idx === 2) return { id: "t3", q: "準中型免許は18歳以上であれば普通免許の経験がなくても取得できる。", a: true, exp: "正しいです。準中型免許は経験不要で18歳から取得可能です。" };
+        return { ...q, id: `t${idx+1}` };
+    }).concat(truckExtra);
+
+    // 3. 危険予測問題（シチュエーション＆3問セット・配点2点）
+    const carRiskQuestions = [
+        {
+            id: "cr1",
+            situation: "【状況】停留所で停止中のバスの右側を通過して追い越そうとしています。どのような点に注意しますか？",
+            subQuestions: [
+                { q: "イ. バスの前からの歩行者の飛び出しに備え、徐行して進行する。", a: true, exp: "正しい。陰からの急な飛び出しに警戒が必要です。" },
+                { q: "ロ. 対向車が来ていないか確認するため、安全な間隔を保ちつつ進行する。", a: true, exp: "正しい。対向車との接触を防ぐ確認が必要です。" },
+                { q: "ハ. 後続車に迷惑がかかるので、ウインカーを出さずに素早く追い越す。", a: false, exp: "誤り。進路変更の3秒前には必ず合図を出さなければなりません。" }
+            ]
+        },
+        {
+            id: "cr2",
+            situation: "【状況】見通しの悪い交差点に近づいています。歩行者が横断しようとしています。",
+            subQuestions: [
+                { q: "イ. 交差点の手前で徐行または一時停止し、歩行者の安全を確認する。", a: true, exp: "正しい。見通しの悪い交差点や歩行者周辺では徐行・安全確認が必要です。" },
+                { q: "ロ. 優先道路であれば歩行者より車が優先されるので、そのままの速度で通過する。", a: false, exp: "誤り。歩行者の保護が最優先です。" },
+                { q: "ハ. クラクションを鳴らして歩行者を立ち止まらせてから通過する。", a: false, exp: "誤り。むやみなクラクションの使用は禁止されています。" }
+            ]
+        },
+        {
+            id: "cr3",
+            situation: "【状況】雨の日の夜間、片側1車線の道路を走行しています。対向車のライトで中央付近が見えにくくなっています。",
+            subQuestions: [
+                { q: "イ. 蒸発現象により道路中央の歩行者が見えなくなることがあるので速度を落として慎重に進行する。", a: true, exp: "正しい。対向光による蒸発現象に注意が必要です。" },
+                { q: "ロ. 前方が見えにくいのでハイビームにして対向車に存在を知らせる。", a: false, exp: "誤り。対向車を眩惑させるため下向きライトに維持します。" },
+                { q: "ハ. 視界を確保するため、できるだけ中央線に寄って走行する。", a: false, exp: "誤り。対向車との接触危険が高まるため左側に寄って走行します。" }
+            ]
+        },
+        {
+            id: "cr4",
+            situation: "【状況】踏切の手前に差し掛かりました。前方の車が踏切内で停車しています。",
+            subQuestions: [
+                { q: "イ. 自分の車が踏切内で取り残されないよう、前車が踏切を抜け出るまで手前で待機する。", a: true, exp: "正しい。前方に十分なスペースがない場合は進入してはいけません。" },
+                { q: "ロ. 踏切手前で必ず一時停止し、窓を開けて音と安全を確認する。", a: true, exp: "正しい。踏切通過時の基本動作です。" },
+                { q: "ハ. 前車に続いて進行する場合は、一時停止を省略してそのまま通過してよい。", a: false, exp: "誤り。前車に続く場合でも全車一時停止が必要です。" }
+            ]
+        },
+        {
+            id: "cr5",
+            situation: "【状況】高速道路の加速車線を走行しており、本線車道へ合流しようとしています。",
+            subQuestions: [
+                { q: "イ. 本線車道を走行する車の進行を妨げないよう、加速車線で十分加速してから合流する。", a: true, exp: "正しい。本線車道優先であり、十分な速度で合流します。" },
+                { q: "ロ. 合流する際はウインカーを出して意思表示を行う。", a: true, exp: "正しい。合流（進路変更）時の合図は必須です。" },
+                { q: "ハ. 本線車道が混雑しているときは、路肩に一時停止して隙間ができるのを待つ。", a: false, exp: "誤り。加速車線上で速度を調整しスムーズに合流します。" }
+            ]
+        }
+    ];
+
+
+    const truckRiskQuestions = [
+        {
+            id: "tr1",
+            situation: "【状況】大型トラックで、前方の交差点を左折しようとしています。左側には自転車が走っています。",
+            subQuestions: [
+                { q: "イ. 左側の死角に自転車がいるおそれがあるので、ミラーと目視で左側方を確認し、徐行する。", a: true, exp: "正しい。左側は死角が大きく、内輪差で巻き込む危険があります。" },
+                { q: "ロ. 内輪差を避けるため、あらかじめ右に寄り、大きく膨らんで曲がる。", a: false, exp: "誤り。右に寄ると左側に隙間ができ、二輪車などが入り込んで巻き込む原因になります。" },
+                { q: "ハ. 後輪が内側を通ることを考え、前輪が交差点の中心近くに来るまで進んでからハンドルを切る。", a: true, exp: "正しい。内輪差を考慮した操作が必要です。" }
+            ]
+        },
+        {
+            id: "tr2",
+            situation: "【状況】荷物を満載した大型トラックで、長い下り坂にさしかかりました。",
+            subQuestions: [
+                { q: "イ. 坂の手前で減速し、低いギアでエンジンブレーキや排気ブレーキを使う。", a: true, exp: "正しい。フットブレーキの使いすぎを防げます。" },
+                { q: "ロ. 燃費をよくするため、ギアをニュートラルにして惰力で下る。", a: false, exp: "誤り。エンジンブレーキが使えず、制御不能になるおそれがあります。" },
+                { q: "ハ. 速度が出ないよう、フットブレーキを踏み続けて下る。", a: false, exp: "誤り。フェード現象・ベーパーロック現象でブレーキが効かなくなります。" }
+            ]
+        }
+    ];
+
+    let currentCourse = "car";
+    let activeQuestions = carQuestions;
+    let activeRiskQuestions = carRiskQuestions;
+
+    let currentMode = "all"; // mock, number, sign, random10, wrong, all
+    let currentQuizQueue = []; // 出題問題リスト
+    let currentIdx = 0;
+    
+    // スコア保持
+    let normalScore = 0;
+    let riskScore = 0;
+    let userAnswers = []; // モックテスト用の回答記録
+
+    // タイマー管理
+    let timerInterval = null;
+    let timeRemaining = 3000; // 50分（3000秒）
+
+    // 危険予測入力保持
+    let currentRiskAnswers = [null, null, null];
+
+    function getStorageKey(key) {
+        return `${key}_${currentCourse}`;
+    }
+
+    function getWrongIds() {
+        return JSON.parse(localStorage.getItem(getStorageKey('wrong_questions')) || "[]");
+    }
+
+    function saveWrongIds(ids) {
+        localStorage.setItem(getStorageKey('wrong_questions'), JSON.stringify(ids));
+    }
+
+    function getAnalyticsData() {
+        return JSON.parse(localStorage.getItem(getStorageKey('analytics_data')) || "{}");
+    }
+
+    function saveAnalyticsData(data) {
+        localStorage.setItem(getStorageKey('analytics_data'), JSON.stringify(data));
+    }
+
+    function selectCourse(course) {
+        currentCourse = course;
+        document.getElementById("btn-course-car").classList.toggle("active", course === 'car');
+        document.getElementById("btn-course-truck").classList.toggle("active", course === 'truck');
+        
+        activeQuestions = (course === 'car') ? carQuestions : truckQuestions;
+        activeRiskQuestions = (course === 'car') ? carRiskQuestions : carRiskQuestions.concat(truckRiskQuestions);
+
+        updateBadges();
+        renderAnalytics();
+    }
+
+    // AI（正規表現）解析：数字問題抽出
+    function isNumberQuestion(q) {
+        const regex = /[0-9０-９一二三四五六七八九十百千]+|メートル|キロ|トン|歳|時間|日|分|m|km|t/i;
+        return regex.test(q.q);
+    }
+
+    // カテゴリ自動判定
+    function getQuestionCategory(q) {
+        if (q.cat) return q.cat;
+        if (q.img || /標識|標示|信号/.test(q.q)) return "標識・信号";
+        if (/駐停車|駐車|停車/.test(q.q)) return "駐停車";
+        if (/速度|キロ|徐行|追い越し|追抜き/.test(q.q)) return "速度・通行";
+        if (isNumberQuestion(q)) return "数字・数量";
+        return "一般ルール";
+    }
+
+    function updateBadges() {
+        const wrongIds = getWrongIds();
+        document.getElementById("wrong-count-badge").innerText = `${wrongIds.length}問`;
+        document.getElementById("total-count-badge").innerText = `${activeQuestions.length}問`;
+
+        const numCount = activeQuestions.filter(isNumberQuestion).length;
+        document.getElementById("number-count-badge").innerText = `${numCount}問`;
+
+        const signCount = activeQuestions.filter(q => q.img || /標識|標示/.test(q.q)).length;
+        document.getElementById("sign-count-badge").innerText = `${signCount}問`;
+    }
+
+    // カテゴリ別苦手分析の表示
+    function renderAnalytics() {
+        const container = document.getElementById("analytics-meters");
+        container.innerHTML = "";
+
+        const data = getAnalyticsData();
+        const categories = ["標識・信号", "数字・数量", "駐停車", "速度・通行", "一般ルール"];
+        if (currentCourse === "truck") categories.push("免許・車両区分", "大型車の特性", "積載・過積載");
+
+        categories.forEach(cat => {
+            const catData = data[cat] || { total: 0, correct: 0 };
+            const rate = catData.total > 0 ? Math.round((catData.correct / catData.total) * 100) : 0;
+
+            const item = document.createElement("div");
+            item.className = "meter-item";
+            item.innerHTML = `
+                <div class="meter-label">
+                    <span>${cat} (${catData.correct}/${catData.total}問)</span>
+                    <span>${rate}%</span>
+                </div>
+                <div class="meter-bar-bg">
+                    <div class="meter-bar-fill" style="width: ${rate}%;"></div>
+                </div>
+            `;
+            container.appendChild(item);
+        });
+    }
+
+    function recordAnalytics(cat, isCorrect) {
+        const data = getAnalyticsData();
+        if (!data[cat]) data[cat] = { total: 0, correct: 0 };
+        data[cat].total += 1;
+        if (isCorrect) data[cat].correct += 1;
+        saveAnalyticsData(data);
+    }
+
+    function resetAnalytics() {
+        if (confirm("苦手分析のデータをリセットしますか？")) {
+            localStorage.removeItem(getStorageKey('analytics_data'));
+            renderAnalytics();
+        }
+    }
+
+    function startQuiz(mode) {
+        currentMode = mode;
+        const wrongIds = getWrongIds();
+        currentQuizQueue = [];
+
+        if (mode === 'mock') {
+            // 90問文章問題 + 5問危険予測
+            const shuffledNormal = [...activeQuestions].sort(() => Math.random() - 0.5).slice(0, 90);
+            const shuffledRisk = [...activeRiskQuestions].sort(() => Math.random() - 0.5).slice(0, 5);
+            
+            shuffledNormal.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+            shuffledRisk.forEach(q => currentQuizQueue.push({ type: 'risk', data: q }));
+            
+            startTimer(3000); // 50分タイマー
+        } else if (mode === 'number') {
+            const numQs = activeQuestions.filter(isNumberQuestion);
+            numQs.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+        } else if (mode === 'sign') {
+            const signQs = activeQuestions.filter(q => q.img || /標識|標示/.test(q.q));
+            signQs.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+        } else if (mode === 'random10') {
+            const shuffled = [...activeQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
+            shuffled.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+        } else if (mode === 'wrong') {
+            if (wrongIds.length === 0) {
+                alert("間違えた問題はありません！");
+                return;
+            }
+            const wrongQs = activeQuestions.filter(q => wrongIds.includes(q.id));
+            wrongQs.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+        } else if (mode === 'all') {
+            activeQuestions.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+        }
+
+        currentIdx = 0;
+        normalScore = 0;
+        riskScore = 0;
+        userAnswers = [];
+
+        document.getElementById("home-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+        document.getElementById("result-screen").style.display = "none";
+
+        loadQuestion();
+    }
+
+    function startTimer(seconds) {
+        timeRemaining = seconds;
+        const timerBox = document.getElementById("timer-box");
+        timerBox.style.display = "block";
+        updateTimerDisplay();
+
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            updateTimerDisplay();
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                alert("⏰ 時間切れです！採点します。");
+                showResult();
+            }
+        }, 1000);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+        document.getElementById("timer-box").style.display = "none";
+    }
+
+    function updateTimerDisplay() {
+        const min = Math.floor(timeRemaining / 60);
+        const sec = timeRemaining % 60;
+        document.getElementById("timer-text").innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+    }
+
+    function loadQuestion() {
+        const item = currentQuizQueue[currentIdx];
+        document.getElementById("progress").innerText = `問題 ${currentIdx + 1} / ${currentQuizQueue.length}`;
+        document.getElementById("explanation").style.display = "none";
+        document.getElementById("next-btn").style.display = "none";
+
+        const imgContainer = document.getElementById("q-img-container");
+        const qImg = document.getElementById("q-img");
+
+        if (item.type === 'normal') {
+            document.getElementById("normal-q-box").style.display = "block";
+            document.getElementById("risk-q-box").style.display = "none";
+            document.getElementById("question").innerText = item.data.q;
+
+            // 画像判定
+            if (item.data.img) {
+                qImg.src = item.data.img;
+                imgContainer.style.display = "block";
+            } else {
+                imgContainer.style.display = "none";
+            }
+
+            const buttons = document.querySelectorAll("#btn-group .btn");
+            buttons.forEach(btn => btn.disabled = false);
+        } else if (item.type === 'risk') {
+            document.getElementById("normal-q-box").style.display = "none";
+            document.getElementById("risk-q-box").style.display = "block";
+            imgContainer.style.display = "none";
+
+            document.getElementById("risk-situation").innerText = item.data.situation;
+
+            const subContainer = document.getElementById("risk-sub-container");
+            subContainer.innerHTML = "";
+            currentRiskAnswers = [null, null, null];
+
+            item.data.subQuestions.forEach((sq, idx) => {
+                const card = document.createElement("div");
+                card.className = "sub-q-card";
+                card.innerHTML = `
+                    <div class="sub-q-text">${sq.q}</div>
+                    <div class="sub-btn-group">
+                        <button class="sub-btn" id="risk-btn-${idx}-true" onclick="selectRiskSub(${idx}, true)">⭕ 正しい</button>
+                        <button class="sub-btn" id="risk-btn-${idx}-false" onclick="selectRiskSub(${idx}, false)">❌ 誤り</button>
+                    </div>
+                    <div class="sub-exp" id="risk-exp-${idx}"></div>
+                `;
+                subContainer.appendChild(card);
+            });
+
+            document.getElementById("risk-submit-btn").style.display = "block";
+            document.getElementById("risk-submit-btn").disabled = false;
+        }
+    }
+
+    function checkAnswer(userAnswer) {
+        const item = currentQuizQueue[currentIdx];
+        const q = item.data;
+        const isCorrect = (userAnswer === q.a);
+
+        const buttons = document.querySelectorAll("#btn-group .btn");
+        buttons.forEach(btn => btn.disabled = true);
+
+        const expBox = document.getElementById("explanation");
+        const expTitle = document.getElementById("exp-title");
+        const expText = document.getElementById("exp-text");
+
+        expBox.style.display = "block";
+        let wrongIds = getWrongIds();
+
+        const cat = getQuestionCategory(q);
+        recordAnalytics(cat, isCorrect);
+
+        if (isCorrect) {
+            normalScore++;
+            expBox.className = "explanation correct";
+            expTitle.innerText = "⭕ 正解！";
+            if (wrongIds.includes(q.id)) {
+                wrongIds = wrongIds.filter(id => id !== q.id);
+                saveWrongIds(wrongIds);
+            }
+        } else {
+            expBox.className = "explanation wrong";
+            expTitle.innerText = "❌ 不正解…";
+            if (!wrongIds.includes(q.id)) {
+                wrongIds.push(q.id);
+                saveWrongIds(wrongIds);
+            }
+        }
+
+        expText.innerText = q.exp;
+        document.getElementById("next-btn").style.display = "block";
+        updateBadges();
+    }
+
+    function selectRiskSub(subIdx, answer) {
+        currentRiskAnswers[subIdx] = answer;
+        const trueBtn = document.getElementById(`risk-btn-${subIdx}-true`);
+        const falseBtn = document.getElementById(`risk-btn-${subIdx}-false`);
+
+        trueBtn.className = `sub-btn ${answer === true ? 'selected-true' : ''}`;
+        falseBtn.className = `sub-btn ${answer === false ? 'selected-false' : ''}`;
+    }
+
+    // 危険予測の判定（3問全問正解で初めて2点！）
+    function checkRiskAnswer() {
+        if (currentRiskAnswers.includes(null)) {
+            alert("イ・ロ・ハのすべての問題に回答してください。");
+            return;
+        }
+
+        const item = currentQuizQueue[currentIdx];
+        const subQs = item.data.subQuestions;
+
+        let allCorrect = true;
+
+        subQs.forEach((sq, idx) => {
+            const userAns = currentRiskAnswers[idx];
+            const isSubCorrect = (userAns === sq.a);
+            if (!isSubCorrect) allCorrect = false;
+
+            const expDiv = document.getElementById(`risk-exp-${idx}`);
+            expDiv.style.display = "block";
+            expDiv.style.backgroundColor = isSubCorrect ? "#f0fdf4" : "#fef2f2";
+            expDiv.style.color = isSubCorrect ? "#166534" : "#991b1b";
+            expDiv.innerText = `${isSubCorrect ? '⭕' : '❌'} ${sq.exp}`;
+
+            // ボタン無効化
+            document.getElementById(`risk-btn-${idx}-true`).disabled = true;
+            document.getElementById(`risk-btn-${idx}-false`).disabled = true;
+        });
+
+        document.getElementById("risk-submit-btn").style.display = "none";
+
+        const expBox = document.getElementById("explanation");
+        const expTitle = document.getElementById("exp-title");
+        const expText = document.getElementById("exp-text");
+        expBox.style.display = "block";
+
+        if (allCorrect) {
+            riskScore += 2; // 3全問正解で2点獲得
+            expBox.className = "explanation correct";
+            expTitle.innerText = "⭕ 完ペキ！ 2点獲得！";
+            expText.innerText = "3小問すべて正解したため、2点が入りました。";
+        } else {
+            expBox.className = "explanation wrong";
+            expTitle.innerText = "❌ 0点（1問以上間違えています）";
+            expText.innerText = "本番仕様につき、1つでも不備があると2点獲得できません。";
+        }
+
+        recordAnalytics("危険予測", allCorrect);
+        document.getElementById("next-btn").style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentIdx++;
+        if (currentIdx < currentQuizQueue.length) {
+            loadQuestion();
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        stopTimer();
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "flex";
+        document.getElementById("progress").innerText = "結果発表";
+
+        const totalScore = normalScore + riskScore;
+        const resultBadge = document.getElementById("result-badge");
+        const scoreDetail = document.getElementById("score-detail");
+
+        if (currentMode === 'mock') {
+            const isPass = totalScore >= 90;
+            resultBadge.className = `result-badge ${isPass ? 'pass-badge' : 'fail-badge'}`;
+            resultBadge.innerText = isPass ? "🎉 判定：合格！" : "😭 判定：不合格...";
+
+            scoreDetail.innerHTML = `
+                <b>合計得点: ${totalScore}点 / 100点</b> (合格ライン: 90点)<br>
+                ・文章問題 (1点×90問): ${normalScore}点<br>
+                ・危険予測 (2点×5問): ${riskScore}点
+            `;
+        } else {
+            resultBadge.className = "result-badge pass-badge";
+            resultBadge.innerText = "テスト完了！";
+            scoreDetail.innerHTML = `
+                <b>正解数: ${normalScore + (riskScore/2)} / ${currentQuizQueue.length} 問</b>
+            `;
+        }
+
+        renderAnalytics();
+    }
+
+    function confirmGoHome() {
+        if (confirm("途中で終了してホームに戻りますか？")) {
+            goHome();
+        }
+    }
+
+    function goHome() {
+        stopTimer();
+        document.getElementById("home-screen").style.display = "flex";
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "none";
+        document.getElementById("progress").innerText = "コースとモードを選択してください";
+        updateBadges();
+        renderAnalytics();
+    }
+
+    // 初期化
+    selectCourse('car');
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+    }
+</script>
+
+</body>
+</html>
