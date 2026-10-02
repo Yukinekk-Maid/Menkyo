@@ -1,5 +1,5 @@
 // 更新したらVERSIONを変えると、端末のキャッシュが入れ替わります
-const VERSION = "v1";
+const VERSION = "v2";
 const CACHE = "license-app-" + VERSION;
 const CORE = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 
