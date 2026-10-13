@@ -705,17 +705,19 @@
         return `${key}_${currentCourse}`;
     }
 
-    function getWrongIds() {
-        return JSON.parse(localStorage.getItem(getStorageKey('wrong_questions')) || "[]");
-    }
+   function getWrongIds() {
+  try { return JSON.parse(localStorage.getItem(getStorageKey('wrong_questions'))) || []; }
+  catch { return []; }
+}
 
     function saveWrongIds(ids) {
         localStorage.setItem(getStorageKey('wrong_questions'), JSON.stringify(ids));
     }
 
-    function getAnalyticsData() {
-        return JSON.parse(localStorage.getItem(getStorageKey('analytics_data')) || "{}");
-    }
+   function getAnalyticsData() {
+  try { return JSON.parse(localStorage.getItem(getStorageKey('analytics_data'))) || {}; }
+  catch { return {}; }
+}
 
     function saveAnalyticsData(data) {
         localStorage.setItem(getStorageKey('analytics_data'), JSON.stringify(data));
@@ -734,10 +736,9 @@
     }
 
     // AI（正規表現）解析：数字問題抽出
-    function isNumberQuestion(q) {
-        const regex = /[0-9０-９一二三四五六七八九十百千]+|メートル|キロ|トン|歳|時間|日|分|m|km|t/i;
-        return regex.test(q.q);
-    }
+   function isNumberQuestion(q) {
+  return /[0-9０-９]/.test(q.q);
+}
 
     // カテゴリ自動判定
     function getQuestionCategory(q) {
@@ -767,7 +768,7 @@
         container.innerHTML = "";
 
         const data = getAnalyticsData();
-        const categories = ["標識・信号", "数字・数量", "駐停車", "速度・通行", "一般ルール"];
+        const categories = ["標識・信号", "数字・数量", "駐停車", "速度・通行", "一般ルール", "危険予測"];
         if (currentCourse === "truck") categories.push("免許・車両区分", "大型車の特性", "積載・過積載");
 
         categories.forEach(cat => {
