@@ -418,7 +418,7 @@
 
         <button class="mode-btn" onclick="startQuiz('all')">
             <div class="mode-title">🔥 全問マスター <span class="badge badge-blue" id="total-count-badge">90問</span></div>
-            <div class="mode-desc">選択中コースの全文章問題をランダム順で攻略</div>
+            <div class="mode-desc">選択中コースの全文章問題を順番に攻略</div>
         </button>
 
         <!-- カテゴリ別・苦手分析 -->
@@ -570,101 +570,29 @@
         { id: "c87", q: "高速道路での最高速度・最低速度の規定は、本線車道だけでなく加速車線や減速車線にも適用される。", a: false, exp: "誤りです。最高・最低速度の規定が適用されるのは「本線車道」のみです。" },
         { id: "c88", q: "交差点で矢印型の青色信号（↑）が点灯しているときは、自動車は矢印の方向に進行することができる。", a: true, exp: "正しいです。本信号が赤や黄色であっても矢印方向に進行可能です。" },
         { id: "c89", q: "交差点で黄色の矢印信号が点灯しているときは、路面電車のみが進むことができ、自動車は進むことができない。", a: true, exp: "正しいです。黄色の矢印は路面電車専用です。" },
-        { id: "c90", q: "警察官の手信号で、腕を頭上に垂直に上げているとき、警察官の身体の正面に対面する交通にとっては「赤色の灯火」と同じ意味である。", a: true, exp: "正しいです。対面する交通にとっては赤信号と同じ意味になります。" },
-        
-                { id: "c91", q: "交差点で青色の灯火の信号に対面したとき、自動車は直進と左折はできるが、右折はできない。", a: false, exp: "誤りです。自動車は青信号で右折もできます。ただし、右折するときは直進する車や左折する車の進行を妨げてはいけません。" },
-        { id: "c92", q: "黄色の灯火の信号に対面した車は、停止位置に近づいていて安全に停止できないときは、そのまま進行することができる。", a: true, exp: "正しいです。黄色は原則として停止ですが、安全に停止できない場合は進行できます。" },
-        { id: "c93", q: "赤色の灯火の信号に対面した車は、停止線を越えて交差点の中ほどまで進んでから停止すればよい。", a: false, exp: "誤りです。停止線の直前（停止線がないときは交差点の直前）で停止しなければなりません。" },
-        { id: "c94", q: "横断歩道を渡っている、または渡ろうとしている歩行者がいるときは、一時停止して歩行者に道を譲らなければならない。", a: true, exp: "正しいです。歩行者の通行を妨げてはいけません。" },
-        { id: "c95", q: "横断歩道に近づいたとき、横断する人がいないことが明らかでない場合は、停止できる速度に落として進行しなければならない。", a: true, exp: "正しいです。歩行者がいないことが明らかな場合を除き、減速して進行します。" },
-        { id: "c96", q: "横断歩道の手前に停止している車があるときは、その側方を通過して前方に出る場合でも、そのままの速度で通過してよい。", a: false, exp: "誤りです。停止している車の側方を通過して前に出るときは、前に出る前に一時停止が必要です。車の陰に歩行者がいるおそれがあるためです。" },
-        { id: "c97", q: "白色または黄色のつえを持って歩いている人や盲導犬を連れた人が通行しているときは、一時停止または徐行して、安全に通行できるようにしなければならない。", a: true, exp: "正しいです。通行を妨げてはいけません。" },
-        { id: "c98", q: "信号機がなく交通整理が行われていない、道幅がほぼ同じ交差点では、右方向から来る車が優先する。", a: false, exp: "誤りです。左方向から来る車が優先します（左方優先）。" },
-        { id: "c99", q: "信号機がなく交通整理が行われていない交差点では、道幅が明らかに広い道路を通行する車が、狭い道路を通行する車より優先する。", a: true, exp: "正しいです。広い道路を通行する車が優先します。" },
-        { id: "c100", q: "信号機のない交差点で右折しようとする車は、対向する直進車より優先して先に進行できる。", a: false, exp: "誤りです。右折車は、直進する車や左折する車の進行を妨げてはいけません。" },
-        { id: "c101", q: "一時停止の標識がある道路から交差点に入るときは、停止線の直前（停止線がなければ交差点の直前）で一時停止し、交差する道路を通行する車の進行を妨げてはならない。", a: true, exp: "正しいです。停止したあとも、交差する道路の車を優先させます。" },
-        { id: "c102", q: "緊急自動車が近づいてきたときは、場所を問わず、その場で直ちに一時停止しなければならない。", a: false, exp: "誤りです。交差点付近以外では道路の左側に寄って進路を譲り、交差点付近では交差点を避けて左側に寄り一時停止します。" },
-        { id: "c103", q: "荷物の積み卸しのために車を止めたとき、時間が10分程度であれば、運転者がすぐに運転できる状態なら停車として扱われる。", a: false, exp: "誤りです。荷物の積み卸しで停車にあたるのは、5分以内で、運転者がすぐに運転できる状態の場合です。" },
-        { id: "c104", q: "人の乗り降りのために車を止めて、運転者がすぐに運転できる状態であれば、停車にあたる。", a: true, exp: "正しいです。ただし、客待ちや人待ちのために止めている場合は駐車になります。" },
-        { id: "c105", q: "運転者が車から離れていて、すぐに運転できない状態で止めているときは、短い時間であっても駐車にあたる。", a: true, exp: "正しいです。すぐに運転できない状態の停止は駐車です。" },
-        { id: "c106", q: "バスの停留所の標示柱（標示板）から10メートル以内の場所は、運行時間に関係なく駐停車禁止である。", a: false, exp: "誤りです。駐停車禁止になるのは、そのバスなどの運行時間中に限られます。" },
-        { id: "c107", q: "安全地帯の左側とその前後10メートル以内の場所は、駐停車禁止である。", a: true, exp: "正しいです。安全地帯の左側部分とその前後10m以内は駐停車禁止です。" },
-        { id: "c108", q: "消火栓から5メートル以内の場所は、駐停車禁止である。", a: false, exp: "誤りです。消火栓から5m以内は「駐車禁止」であり、停車はできます。" },
-        { id: "c109", q: "道路工事の区域の端から5メートル以内の場所は、駐車禁止である。", a: true, exp: "正しいです。駐車禁止なので、停車はできます。" },
-        { id: "c110", q: "前の車が右折するために道路の中央（一方通行の道路では右端）に寄って通行しているときは、その車の左側を通行しなければならない。", a: true, exp: "正しいです。右側から追い越してはいけません。" },
-        { id: "c111", q: "前の車が、さらに前の車を追い越そうとしているときは、その車を追い越してはならない。", a: true, exp: "正しいです。二重追い越しは禁止されています。" },
-        { id: "c112", q: "夜間、対向車と行き違うときでも、前照灯は上向きのまま走行してよい。", a: false, exp: "誤りです。対向車と行き違うときは、前照灯を減光するか下向きに切り替えなければなりません。" },
-        { id: "c113", q: "昼間であっても、トンネルの中や、視界が著しく悪い濃い霧の中を通行するときは、前照灯などをつけなければならない。", a: true, exp: "正しいです。昼間でも視界が悪い場所では灯火が必要です。" },
-        { id: "c114", q: "高速道路の本線車道で出口を通り過ぎてしまったときは、安全を確認すれば後退して出口に戻ってよい。", a: false, exp: "誤りです。本線車道での横断・転回・後退は禁止されています。次の出口まで進みます。" },
-        { id: "c115", q: "高速道路で渋滞しているときでも、路肩を通行して前に出てはならない。", a: true, exp: "正しいです。路肩は通常の走行のための場所ではありません。" },
-        { id: "c116", q: "高速道路での車間距離は、一般道路と同じで、速度に関係なく10メートル程度でよい。", a: false, exp: "誤りです。速度に応じて十分な車間距離が必要で、目安は速度（km/h）と同じ数値のメートル以上です。" },
-        { id: "c117", q: "運転免許証の住所や氏名など、記載事項に変更があったときは、公安委員会に届け出なければならない。", a: true, exp: "正しいです。住所や氏名などに変更があったときは、届け出が必要です。" },
-        { id: "c118", q: "交通事故を起こしたときは、まず運転を停止し、負傷者を救護し、道路上の危険を防止する措置をとったうえで、警察官に事故の内容を報告しなければならない。", a: true, exp: "正しいです。この順序で対応する義務があります。" },
-        { id: "c119", q: "交通事故が軽微で、当事者同士の話し合いで示談が成立したときは、警察への届け出は不要である。", a: false, exp: "誤りです。事故の大小や示談の有無にかかわらず、警察官に報告する義務があります。" },
-        { id: "c120", q: "ビールをコップ1杯程度の少量であれば、運転に影響しないので運転してもよい。", a: false, exp: "誤りです。少量のアルコールでも判断力や注意力が低下します。飲酒運転は禁止されています。" },
-        { id: "c121", q: "眠気を催すおそれのある薬を飲んだときは、運転を控えなければならない。", a: true, exp: "正しいです。風邪薬や酔い止め薬などにも眠気を催すものがあります。" },
-        { id: "c122", q: "エアバッグが装備されている車では、シートベルトを着用しなくても乗員は十分に保護される。", a: false, exp: "誤りです。エアバッグはシートベルトの補助装置で、シートベルトの着用が前提です。" },
-        { id: "c123", q: "雪道や凍結した道路を走行するときは、タイヤチェーンを取り付けるなど、滑り止めの措置をとることが必要である。", a: true, exp: "正しいです。冬用タイヤの装着も有効です。" },
-        { id: "c124", q: "濃い霧の中では、ハザードランプだけを点灯して走行すればよい。", a: false, exp: "誤りです。前照灯や尾灯などを点灯し、速度を落として車間距離を長めにとります。ハザードランプは走行中の灯火の代わりにはなりません。" },
-        { id: "c125", q: "自転車は、歩道の通行が認められていない場合でも、歩行者がいなければ歩道を通行してよい。", a: false, exp: "誤りです。自転車は車道の左側端を通行するのが原則で、歩道を通行できるのは標識などで認められている場合などに限られます。" },
-        { id: "c126", q: "安全地帯のそばを通るときは、歩行者がいない場合でも必ず徐行しなければならない。", a: false, exp: "誤りです。徐行が必要なのは、安全地帯に歩行者がいる場合です。" },
-        { id: "c127", q: "歩行者のそばを通るときは、安全な間隔をあけるか、それができないときは徐行しなければならない。", a: true, exp: "正しいです。歩行者の安全を最優先します。" },
-        { id: "c128", q: "踏切の遮断機が降りかけているときでも、渡りきれると思えば踏切に入ってよい。", a: false, exp: "誤りです。警報機が鳴っているときや、遮断機が降りているときや降り始めたときは、踏切に入ってはいけません。" },
-        { id: "c129", q: "踏切内で車が動かなくなったときは、すぐに同乗者を避難させ、非常ボタンを押すか発炎筒などで列車に知らせる。", a: true, exp: "正しいです。まず人の安全を確保し、列車に異常を知らせます。" },
-        { id: "c130", q: "車のドアは、車が停止していれば、後方の安全を確認しなくても開けてよい。", a: false, exp: "誤りです。後方から来る車や歩行者、自転車などに注意し、安全を確認してから開けなければなりません。" },
-        { id: "c131", q: "交差点で信号が青であっても、前方が混雑していて交差点内で止まってしまうおそれがあるときは、交差点に入ってはならない。", a: true, exp: "正しいです。交差点内で動けなくなって、他の交通の妨げになるのを防ぎます。" },
-        { id: "c132", q: "道路標識で最高速度が指定されている道路では、標識で指定された速度が最高速度となり、法定最高速度は適用されない。", a: true, exp: "正しいです。標識による指定が優先されます。" }
-    ];  
+        { id: "c90", q: "警察官の手信号で、腕を頭上に垂直に上げているとき、警察官の身体の正面に対面する交通にとっては「赤色の灯火」と同じ意味である。", a: true, exp: "正しいです。対面する交通にとっては赤信号と同じ意味になります。" }
+    ];
 
-// ===== 標識（SVG付き）問題 =====
-const svgUri = (svg) => "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-
-const SIGN_SVG = {
-    // 車両進入禁止（赤丸＋白い横棒）
-    noEntry: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="#fff"/><circle cx="100" cy="100" r="88" fill="#dc2626"/><rect x="42" y="82" width="116" height="36" fill="#fff"/></svg>`),
-    // 駐車禁止（青地＋赤縁＋斜線1本）
-    noParking: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="#fff"/><circle cx="100" cy="100" r="88" fill="#1d4ed8" stroke="#dc2626" stroke-width="14"/><path d="M150 50L50 150" stroke="#dc2626" stroke-width="16"/></svg>`),
-    // 最低速度30
-    minSpeed: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="#fff"/><circle cx="100" cy="100" r="88" fill="#1d4ed8"/><text x="100" y="120" font-size="76" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial,sans-serif">30</text><rect x="60" y="134" width="80" height="8" fill="#fff"/></svg>`),
-    // 最高速度40
-    maxSpeed: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="#fff" stroke="#dc2626" stroke-width="18"/><text x="100" y="128" font-size="84" font-weight="bold" fill="#111" text-anchor="middle" font-family="Arial,sans-serif">40</text></svg>`),
-    // 指定方向外進行禁止（直進）
-    straightOnly: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="#fff"/><circle cx="100" cy="100" r="88" fill="#1d4ed8"/><path d="M100 40L135 85H112V160H88V85H65Z" fill="#fff"/></svg>`),
-    // 一方通行
-    oneWay: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect x="6" y="40" width="188" height="120" rx="12" fill="#fff"/><rect x="14" y="48" width="172" height="104" rx="8" fill="#1d4ed8"/><polygon points="38,86 118,86 118,64 166,100 118,136 118,114 38,114" fill="#fff"/></svg>`),
-    // 車両通行止め（赤縁の白丸）
-    noVehicles: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="#fff"/><circle cx="100" cy="100" r="82" fill="#fff" stroke="#dc2626" stroke-width="18"/></svg>`),
-    // 駐車可（P）
-    parkingOk: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect x="12" y="12" width="176" height="176" rx="14" fill="#fff"/><rect x="20" y="20" width="160" height="160" rx="10" fill="#1d4ed8"/><text x="100" y="146" font-size="130" font-weight="bold" fill="#fff" text-anchor="middle" font-family="Arial,sans-serif">P</text></svg>`),
-    // 警戒標識：十字道路交差点あり
-    warnCross: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><polygon points="100,8 192,100 100,192 8,100" fill="#facc15" stroke="#111" stroke-width="8" stroke-linejoin="round"/><path d="M100 46V154M46 100H154" stroke="#111" stroke-width="16"/></svg>`),
-    // 警戒標識：T形道路交差点あり
-    warnT: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><polygon points="100,8 192,100 100,192 8,100" fill="#facc15" stroke="#111" stroke-width="8" stroke-linejoin="round"/><path d="M50 72H150M100 72V152" stroke="#111" stroke-width="16"/></svg>`),
-    // 一時停止
-    stop: svgUri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><polygon points="10,30 190,30 100,185" fill="#dc2626" stroke="#dc2626" stroke-width="8" stroke-linejoin="round"/><polygon points="38,44 162,44 100,150" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><text x="100" y="82" font-size="30" font-weight="bold" fill="#fff" text-anchor="middle" font-family="sans-serif">止まれ</text></svg>`)
-};
-
-const signQuestions = [
-    { id: "s1", q: "この標識のある道路には、車は進入してはならない。", a: true, img: SIGN_SVG.noEntry, exp: "正しいです。「車両進入禁止」の標識で、一方通行の出口側などに設置されます。" },
-    { id: "s2", q: "この標識のある道路には、歩行者も進入してはならない。", a: false, img: SIGN_SVG.noEntry, exp: "誤りです。「車両進入禁止」の対象は車両（自動車・原付・軽車両）で、歩行者は対象外です。" },
-    { id: "s3", q: "この標識のある場所では、駐車はできないが、停車はできる。", a: true, img: SIGN_SVG.noParking, exp: "正しいです。「駐車禁止」の標識です。停車は禁止されていません。" },
-    { id: "s4", q: "この標識のある場所では、人の乗り降りのために停車することもできない。", a: false, img: SIGN_SVG.noParking, exp: "誤りです。「駐車禁止」では停車はできるので、人の乗り降りのための停車は可能です。停車も禁止なのは「駐停車禁止」の標識です。" },
-    { id: "s5", q: "この標識のある道路では、時速30キロメートル未満の速度で走行してはならない。", a: true, img: SIGN_SVG.minSpeed, exp: "正しいです。「最低速度」の標識で、故障などやむを得ない場合を除き、30km/h未満で走行できません。" },
-    { id: "s6", q: "この標識のある道路では、時速30キロメートルまでの速度で走行しなければならない。", a: false, img: SIGN_SVG.minSpeed, exp: "誤りです。これは「最低速度」の標識で、30km/h以上で走る必要があります。30km/hまでに制限するのは「最高速度」の標識です。" },
-    { id: "s7", q: "この標識のある道路では、時速40キロメートルをこえて走行してはならない。", a: true, img: SIGN_SVG.maxSpeed, exp: "正しいです。「最高速度」の標識で、指定された速度が最高速度になります。" },
-    { id: "s8", q: "この標識のある道路では、車は矢印の方向以外に進行してはならない。", a: true, img: SIGN_SVG.straightOnly, exp: "正しいです。「指定方向外進行禁止」の標識で、この場合は直進以外は禁止です。" },
-    { id: "s9", q: "この標識のある道路では、矢印と反対の方向へ車は進行してはならない。", a: true, img: SIGN_SVG.oneWay, exp: "正しいです。「一方通行」の標識で、矢印の方向にしか進行できません。" },
-    { id: "s10", q: "この標識のある道路では、自転車は通行できない。", a: true, img: SIGN_SVG.noVehicles, exp: "正しいです。「車両通行止め」の標識で、自動車・原付・軽車両（自転車など）が通行できません。" },
-    { id: "s11", q: "この標識のある道路では、歩行者も通行することができない。", a: false, img: SIGN_SVG.noVehicles, exp: "誤りです。「車両通行止め」は車両の通行を禁止するもので、歩行者は通行できます。" },
-    { id: "s12", q: "この標識のある場所では、駐車することができる。", a: true, img: SIGN_SVG.parkingOk, exp: "正しいです。「駐車可」の標識で、駐車できる場所を示しています。" },
-    { id: "s13", q: "この標識は、停車はできるが駐車はできない場所を示している。", a: false, img: SIGN_SVG.parkingOk, exp: "誤りです。この標識は「駐車可」で、駐車ができる場所を示しています。" },
-    { id: "s14", q: "この標識は、前方に十字形の交差点があることを示している。", a: true, img: SIGN_SVG.warnCross, exp: "正しいです。「十字道路交差点あり」の警戒標識です。" },
-    { id: "s15", q: "この標識は、前方にT形の道路の交差点があることを示している。", a: true, img: SIGN_SVG.warnT, exp: "正しいです。「T形道路交差点あり」の警戒標識です。" },
-    { id: "s16", q: "この標識は、前方に踏切があることを示している。", a: false, img: SIGN_SVG.warnCross, exp: "誤りです。これは「十字道路交差点あり」の警戒標識です。踏切には別の標識があります。" },
-    { id: "s17", q: "この標識のある交差点では、交差する道路の車が近づいていなければ、一時停止せずに通過してよい。", a: false, img: SIGN_SVG.stop, exp: "誤りです。「一時停止」の標識があるときは、他の車の有無にかかわらず、停止線の直前で一時停止しなければなりません。" }
-];
-
-carQuestions.push(...signQuestions);
+    // 普通免許 追加問題（運転の心得）
+    const carKokoroe = [
+        { id: "c91", cat: "運転の心得", q: "眠気を感じたときは、窓を開けたり音楽を聞いたりして気を紛らわせれば、そのまま運転を続けてよい。", a: false, exp: "誤りです。眠気を感じたら、安全な場所に停止して休憩や仮眠をとります。" },
+        { id: "c92", cat: "運転の心得", q: "酒を飲んだあと、しばらく休んで酔いがさめたと感じたら、運転しても差し支えない。", a: false, exp: "誤りです。自分の感覚では、体内に残ったアルコールの影響は判断できません。飲んだら運転しないのが原則です。" },
+        { id: "c93", cat: "運転の心得", q: "走行中に、カーナビゲーション装置などの画面を注視してはならない。", a: true, exp: "正しいです。画面の注視は禁止されています。操作が必要なときは、安全な場所に停車してから行います。" },
+        { id: "c94", cat: "運転の心得", q: "ドアを開けるときは、後方から来る車や歩行者、二輪車などに注意し、安全を確かめてからでなければならない。", a: true, exp: "正しいです。ドアの開閉による事故も、運転者の責任です。" },
+        { id: "c95", cat: "運転の心得", q: "「…かもしれない」と危険を予測して運転することは、安全運転につながる。", a: true, exp: "正しいです。見えない場所からの飛び出しなどを予測して、速度を落とします。" },
+        { id: "c96", cat: "運転の心得", q: "「相手が譲ってくれるだろう」と考えて運転することは、安全運転として望ましい。", a: false, exp: "誤りです。「だろう運転」は事故のもとです。「かもしれない運転」を心がけます。" },
+        { id: "c97", cat: "運転の心得", q: "長時間運転するときは、疲れを感じる前に、適度に休憩をとるようにする。", a: true, exp: "正しいです。疲れや眠気は、気づいたときにはかなり進んでいることがあります。" },
+        { id: "c98", cat: "運転の心得", q: "交通事故を起こしても、負傷者がおらず車を自力で動かせるなら、そのまま走り去り、後日警察に届ければよい。", a: false, exp: "誤りです。事故を起こしたら、その場で警察へ報告しなければなりません。" },
+        { id: "c99", cat: "運転の心得", q: "交通事故で負傷者がいるときは、運転者は直ちに車を停止させ、負傷者を救護しなければならない。", a: true, exp: "正しいです。救護義務があります。救急車を呼ぶ手配もします。" },
+        { id: "c100", cat: "運転の心得", q: "事故現場では、負傷者の救護とあわせて、後続車による二次事故を防ぐための措置もとらなければならない。", a: true, exp: "正しいです。危険防止の措置をとってから、警察へ報告します。" },
+        { id: "c101", cat: "運転の心得", q: "横断歩道を渡ろうとしている歩行者がいても、まだ横断を始めていなければ、車は通過してよい。", a: false, exp: "誤りです。渡ろうとしている歩行者がいるときは、一時停止して道を譲ります。" },
+        { id: "c102", cat: "運転の心得", q: "横断歩道に近づいたとき、渡ろうとしている人がいるかどうか明らかでない場合は、いつでも停止できる速度で進行しなければならない。", a: true, exp: "正しいです。" },
+        { id: "c103", cat: "運転の心得", q: "他の車に追い越されそうなときは、追い越しを妨げるために加速してもよい。", a: false, exp: "誤りです。追い越されるときは、加速してはいけません。できるだけ左に寄って進路を譲ります。" },
+        { id: "c104", cat: "運転の心得", q: "前の車との車間距離は、前の車が急に止まっても追突しないだけの距離をあけなければならない。", a: true, exp: "正しいです。速度が高いほど、長い距離が必要です。" },
+        { id: "c105", cat: "運転の心得", q: "走行中に空き缶などを窓から捨てても、周囲に歩行者がいなければ問題ない。", a: false, exp: "誤りです。道路に物を投げ捨てることは禁止されています。" },
+        { id: "c106", cat: "運転の心得", q: "短時間であれば、エンジンをかけたまま、ドアをロックせずに車から離れてもよい。", a: false, exp: "誤りです。車から離れるときは、エンジンを止め、鍵をかけるなどの措置が必要です。" }
+    ];
+    carQuestions.push(...carKokoroe);
 
     // 2-a. 準中型・大型 追加問題
     const truckExtra = [
@@ -798,19 +726,17 @@ carQuestions.push(...signQuestions);
         return `${key}_${currentCourse}`;
     }
 
-   function getWrongIds() {
-  try { return JSON.parse(localStorage.getItem(getStorageKey('wrong_questions'))) || []; }
-  catch { return []; }
-}
+    function getWrongIds() {
+        return JSON.parse(localStorage.getItem(getStorageKey('wrong_questions')) || "[]");
+    }
 
     function saveWrongIds(ids) {
         localStorage.setItem(getStorageKey('wrong_questions'), JSON.stringify(ids));
     }
 
-   function getAnalyticsData() {
-  try { return JSON.parse(localStorage.getItem(getStorageKey('analytics_data'))) || {}; }
-  catch { return {}; }
-}
+    function getAnalyticsData() {
+        return JSON.parse(localStorage.getItem(getStorageKey('analytics_data')) || "{}");
+    }
 
     function saveAnalyticsData(data) {
         localStorage.setItem(getStorageKey('analytics_data'), JSON.stringify(data));
@@ -829,9 +755,10 @@ carQuestions.push(...signQuestions);
     }
 
     // AI（正規表現）解析：数字問題抽出
-   function isNumberQuestion(q) {
-  return /[0-9０-９]/.test(q.q);
-}
+    function isNumberQuestion(q) {
+        const regex = /[0-9０-９一二三四五六七八九十百千]+|メートル|キロ|トン|歳|時間|日|分|m|km|t/i;
+        return regex.test(q.q);
+    }
 
     // カテゴリ自動判定
     function getQuestionCategory(q) {
@@ -861,7 +788,7 @@ carQuestions.push(...signQuestions);
         container.innerHTML = "";
 
         const data = getAnalyticsData();
-        const categories = ["標識・信号", "数字・数量", "駐停車", "速度・通行", "一般ルール", "危険予測"];
+        const categories = ["標識・信号", "数字・数量", "駐停車", "速度・通行", "一般ルール", "運転の心得"];
         if (currentCourse === "truck") categories.push("免許・車両区分", "大型車の特性", "積載・過積載");
 
         categories.forEach(cat => {
@@ -898,57 +825,51 @@ carQuestions.push(...signQuestions);
         }
     }
 
-    // 配列をまんべんなくシャッフルする
-function shuffle(arr) {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
+    function startQuiz(mode) {
+        currentMode = mode;
+        const wrongIds = getWrongIds();
+        currentQuizQueue = [];
 
-function startQuiz(mode) {
-    currentMode = mode;
-    const wrongIds = getWrongIds();
-    currentQuizQueue = [];
-
-    if (mode === 'mock') {
-        // 文章90問 + 危険予測5問（毎回、問題の中身も順番も入れ替わる）
-        shuffle(activeQuestions).slice(0, 90).forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
-        shuffle(activeRiskQuestions).slice(0, 5).forEach(q => currentQuizQueue.push({ type: 'risk', data: q }));
-        startTimer(3000);
-    } else {
-        let pool = [];
-        if (mode === 'number') {
-            pool = activeQuestions.filter(isNumberQuestion);
+        if (mode === 'mock') {
+            // 90問文章問題 + 5問危険予測
+            const shuffledNormal = [...activeQuestions].sort(() => Math.random() - 0.5).slice(0, 90);
+            const shuffledRisk = [...activeRiskQuestions].sort(() => Math.random() - 0.5).slice(0, 5);
+            
+            shuffledNormal.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+            shuffledRisk.forEach(q => currentQuizQueue.push({ type: 'risk', data: q }));
+            
+            startTimer(3000); // 50分タイマー
+        } else if (mode === 'number') {
+            const numQs = activeQuestions.filter(isNumberQuestion);
+            numQs.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
         } else if (mode === 'sign') {
-            pool = activeQuestions.filter(q => q.img || /標識|標示/.test(q.q));
+            const signQs = activeQuestions.filter(q => q.img || /標識|標示/.test(q.q));
+            signQs.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
         } else if (mode === 'random10') {
-            pool = shuffle(activeQuestions).slice(0, 10);
+            const shuffled = [...activeQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
+            shuffled.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
         } else if (mode === 'wrong') {
             if (wrongIds.length === 0) {
                 alert("間違えた問題はありません！");
                 return;
             }
-            pool = activeQuestions.filter(q => wrongIds.includes(q.id));
+            const wrongQs = activeQuestions.filter(q => wrongIds.includes(q.id));
+            wrongQs.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
         } else if (mode === 'all') {
-            pool = activeQuestions;
+            activeQuestions.forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
         }
-        shuffle(pool).forEach(q => currentQuizQueue.push({ type: 'normal', data: q }));
+
+        currentIdx = 0;
+        normalScore = 0;
+        riskScore = 0;
+        userAnswers = [];
+
+        document.getElementById("home-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+        document.getElementById("result-screen").style.display = "none";
+
+        loadQuestion();
     }
-
-    currentIdx = 0;
-    normalScore = 0;
-    riskScore = 0;
-    userAnswers = [];
-
-    document.getElementById("home-screen").style.display = "none";
-    document.getElementById("quiz-screen").style.display = "block";
-    document.getElementById("result-screen").style.display = "none";
-
-    loadQuestion();
-}
 
     function startTimer(seconds) {
         timeRemaining = seconds;
